@@ -273,7 +273,7 @@ describe SqlExercise do
   end
 
   it "does not allow users of the SqlExercise class mess with the database" do
-    skip
+
     sql_exercise.limit_customers("5; DROP TABLE customers;")
 
     expect {
@@ -292,7 +292,7 @@ describe SqlExercise do
       expect(sql_exercise.database_connection.sql("SELECT count(*) FROM customers;"))
     }.to_not raise_exception
 
-    sql_exercise.find_items_by_name("'; drop table items; SELECT * FROM customers where name = '")
+    sql_exercise.find_item_by_name("'; drop table items; SELECT * FROM customers where name = '")
 
     expect {
       expect(sql_exercise.database_connection.sql("SELECT count(*) FROM items;"))

@@ -13,11 +13,11 @@ class SqlExercise
   end
 
   def limit_customers(num)
-    database_connection.sql("SELECT * from customers LIMIT #{num}")
+    database_connection.sql("SELECT * from customers LIMIT #{params(num)}")
   end
 
   def order_customers(order_by)
-    database_connection.sql("SELECT * from customers order by name #{order_by}")
+    database_connection.sql("SELECT * from customers order by name #{params(order_by)}")
   end
 
   def id_and_name_for_customers
@@ -30,7 +30,7 @@ class SqlExercise
 
   def find_item_by_name(name)
     database_connection.sql(
-      "select * from items where name = '#{name}'"
+      "select * from items where name = '#{params(name)}'"
       ).first
   end
 
@@ -94,11 +94,12 @@ class SqlExercise
   private
 
   def params(input)
-   string = input.split("; DROP").first
+    string = input.to_s.downcase.split("; drop").first
     if string.to_i > 0
       string.to_i
     else
-      string
+      string.delete "\""
+      string.delete "'"
     end
   end
 end
